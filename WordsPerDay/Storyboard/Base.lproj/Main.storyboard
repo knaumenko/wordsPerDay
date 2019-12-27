@@ -206,12 +206,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8Nc-8r-7xZ"/>
                     </view>
-                    <navigationItem key="navigationItem" id="hUD-8c-9tb"/>
+                    <navigationItem key="navigationItem" id="hUD-8c-9tb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ksN-I1-mn9"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="progressBarHeader" destination="pzl-HX-vok" id="RxW-2X-SNH"/>
+                        <outlet property="saveButton" destination="ksN-I1-mn9" id="ND9-mf-IIb"/>
                         <outlet property="storyText" destination="K6C-yL-6vR" id="erV-1P-blv"/>
                         <outlet property="writingProgressBar" destination="QbC-nC-Bq7" id="ivd-wk-bMO"/>
-                        <segue destination="SSb-ft-sYK" kind="unwind" unwindAction="unwindToStoryListWithSender:" id="hGS-Vp-kfx"/>
+                        <segue destination="SSb-ft-sYK" kind="unwind" identifier="closeStory" unwindAction="unwindToStoryListWithSender:" id="6wh-CB-6n2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AFw-Jt-apd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -246,6 +249,6 @@
         <image name="settings-1" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dnP-X3-N20"/>
+        <segue reference="Oyy-Af-Orc"/>
     </inferredMetricsTieBreakers>
 </document>

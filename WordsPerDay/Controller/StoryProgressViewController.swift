@@ -22,12 +22,14 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         }
     }
     @IBOutlet var progressBarHeader: UIView!
+    @IBOutlet var saveButton: UIBarButtonItem!
     
     var storyDocument: DocumentMO!
     
     var currentWordCount: Float = 0.0
     var wordGoal = 120
     var emitter = ConfettiEmitter()
+    var unsavedText = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,10 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         storyText.delegate = self
         storyText.becomeFirstResponder()
         writingProgressBar.progress = currentWordCount
+        
+        self.saveButton.target = self
+        self.saveButton.action = #selector(StoryProgressViewController.saveStory)
+        self.saveButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,9 +63,11 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if wordCount > 0 && wordCount <= wordGoal {
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
         }
+        saveButton.isEnabled = true
+        self.navigationItem.hidesBackButton = true
     }
     
-    @objc func updateProgress() {
+    @objc private func updateProgress() {
         let wordCount = getWordCount()
         let percentage = Float(wordCount)/Float(wordGoal)
         writingProgressBar.setProgress(percentage, animated: true)
@@ -83,6 +91,34 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
         
+        performSegue(withIdentifier: "closeStory", sender: nil)
+    }
+    
+    private func getWordCount() -> Int {
+        return self.storyText.text.split { !$0.isLetter }.count
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @objc private func endConfetti(emitterLayer:CAEmitterLayer) {
+        emitterLayer.lifetime = 0.0
+        emitterLayer.removeAllAnimations()
+        emitterLayer.removeFromSuperlayer()
+    }
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+    
+    @objc private func saveStory() {
         //save text to the core data
         let words = getWordCount()
         if words <= 0 {return}
@@ -97,28 +133,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             
             appDelegate.saveContext()
         }
+        
+        saveButton.isEnabled = false
+        self.navigationItem.hidesBackButton = false
     }
-    
-    func getWordCount() -> Int {
-        return self.storyText.text.split { !$0.isLetter }.count
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @objc func endConfetti(emitterLayer:CAEmitterLayer) {
-       emitterLayer.lifetime = 0.0
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

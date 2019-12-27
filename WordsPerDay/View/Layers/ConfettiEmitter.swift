@@ -64,9 +64,6 @@ class ConfettiEmitter: CAEmitterLayer {
             cell.scale = 0.1
             
             cells.append(cell)
-            
-            print("i got here")
-            
         }
         
         return cells
