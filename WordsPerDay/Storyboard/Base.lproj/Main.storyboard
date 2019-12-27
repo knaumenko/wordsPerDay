@@ -186,8 +186,14 @@
                                     <constraint firstItem="QbC-nC-Bq7" firstAttribute="leading" secondItem="pzl-HX-vok" secondAttribute="leading" id="Yoo-G1-tFo"/>
                                 </constraints>
                             </view>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Story title..." textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ODr-jY-e4R">
+                                <rect key="frame" x="24" y="64" width="327" height="34"/>
+                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K6C-yL-6vR">
-                                <rect key="frame" x="20" y="51" width="335" height="616"/>
+                                <rect key="frame" x="20" y="99" width="335" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="NotoSansChakma-Regular" family="Noto Sans Chakma" pointSize="24"/>
@@ -196,12 +202,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ODr-jY-e4R" firstAttribute="top" secondItem="8Nc-8r-7xZ" secondAttribute="top" constant="20" id="4NG-mG-aZ3"/>
                             <constraint firstItem="pzl-HX-vok" firstAttribute="trailing" secondItem="8Nc-8r-7xZ" secondAttribute="trailing" id="8EP-5Z-MqG"/>
-                            <constraint firstItem="K6C-yL-6vR" firstAttribute="top" secondItem="pzl-HX-vok" secondAttribute="bottom" constant="2" id="9aF-ag-H27"/>
+                            <constraint firstItem="ODr-jY-e4R" firstAttribute="top" secondItem="pzl-HX-vok" secondAttribute="bottom" constant="15" id="9aF-ag-H27"/>
                             <constraint firstItem="8Nc-8r-7xZ" firstAttribute="bottom" secondItem="K6C-yL-6vR" secondAttribute="bottom" id="FH3-lI-gfG"/>
-                            <constraint firstItem="K6C-yL-6vR" firstAttribute="top" secondItem="8Nc-8r-7xZ" secondAttribute="top" constant="7" id="KOf-VU-KSj"/>
+                            <constraint firstItem="K6C-yL-6vR" firstAttribute="top" secondItem="ODr-jY-e4R" secondAttribute="top" constant="35" id="KOf-VU-KSj"/>
+                            <constraint firstItem="8Nc-8r-7xZ" firstAttribute="trailing" secondItem="ODr-jY-e4R" secondAttribute="trailing" constant="24" id="V49-YP-ZQA"/>
                             <constraint firstItem="pzl-HX-vok" firstAttribute="leading" secondItem="8Nc-8r-7xZ" secondAttribute="leading" id="ebo-fn-bLy"/>
                             <constraint firstItem="8Nc-8r-7xZ" firstAttribute="trailing" secondItem="K6C-yL-6vR" secondAttribute="trailing" constant="20" id="hhH-G7-grH"/>
+                            <constraint firstItem="ODr-jY-e4R" firstAttribute="leading" secondItem="8Nc-8r-7xZ" secondAttribute="leading" constant="24" id="oVD-ld-vwQ"/>
                             <constraint firstItem="K6C-yL-6vR" firstAttribute="leading" secondItem="8Nc-8r-7xZ" secondAttribute="leading" constant="20" id="xFc-qC-cyu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8Nc-8r-7xZ"/>
@@ -214,7 +223,7 @@
                         <outlet property="saveButton" destination="ksN-I1-mn9" id="ND9-mf-IIb"/>
                         <outlet property="storyText" destination="K6C-yL-6vR" id="erV-1P-blv"/>
                         <outlet property="writingProgressBar" destination="QbC-nC-Bq7" id="ivd-wk-bMO"/>
-                        <segue destination="SSb-ft-sYK" kind="unwind" identifier="closeStory" unwindAction="unwindToStoryListWithSender:" id="6wh-CB-6n2"/>
+                        <segue destination="SSb-ft-sYK" kind="unwind" identifier="closeStory" unwindAction="unwindToStoryListWithSender:" id="hGS-Vp-kfx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AFw-Jt-apd" userLabel="First Responder" sceneMemberID="firstResponder"/>

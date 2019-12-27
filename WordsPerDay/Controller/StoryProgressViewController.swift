@@ -30,13 +30,21 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     var wordGoal = 120
     var emitter = ConfettiEmitter()
     var unsavedText = false
+    var placeholder = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //settin up the text view
         storyText.delegate = self
         storyText.becomeFirstResponder()
         writingProgressBar.progress = currentWordCount
+        placeholder.text = "StoryText..."
+        placeholder.font = UIFont.italicSystemFont(ofSize: (storyText.font?.pointSize)!)
+        placeholder.sizeToFit()
+        storyText.addSubview(placeholder)
+        placeholder.frame.origin = CGPoint(x: 5, y: (storyText.font?.pointSize)! / 2)
+        placeholder.textColor = UIColor.lightGray
         
         self.saveButton.target = self
         self.saveButton.action = #selector(StoryProgressViewController.saveStory)
@@ -50,6 +58,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             storyText.text = story.text
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
         }
+        placeholder.isHidden = !storyText.text.isEmpty
         
         // Make the navigation bar background clear
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -65,6 +74,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         }
         saveButton.isEnabled = true
         self.navigationItem.hidesBackButton = true
+        placeholder.isHidden = !storyText.text.isEmpty
     }
     
     @objc private func updateProgress() {

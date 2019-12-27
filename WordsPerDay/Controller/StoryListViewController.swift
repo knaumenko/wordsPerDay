@@ -137,7 +137,6 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func unwindToStoryList(sender: UIStoryboardSegue) {
-        print("performing unwind")
     }
     
     /*
