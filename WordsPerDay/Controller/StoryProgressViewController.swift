@@ -31,6 +31,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     var emitter = ConfettiEmitter()
     var unsavedText = false
     var placeholder = UILabel()
+    var storyComplete: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,11 +52,14 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         self.saveButton.isEnabled = false
     }
     
+    // Controls for different View states
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if let story = storyDocument {
             storyText.text = story.text
+            storyComplete = story.is_complete
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
         }
         placeholder.isHidden = !storyText.text.isEmpty
@@ -71,11 +75,26 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         let wordCount = getWordCount()
         if wordCount > 0 && wordCount <= wordGoal {
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
+        } else if !storyComplete{
+            storyComplete = true
         }
+        
         saveButton.isEnabled = true
         self.navigationItem.hidesBackButton = true
         placeholder.isHidden = !storyText.text.isEmpty
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           
+           // Restore the navigation bar to default
+           navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+           navigationController?.navigationBar.shadowImage = nil
+           
+           performSegue(withIdentifier: "closeStory", sender: nil)
+       }
+    
+    // Updating Progress bar
     
     @objc private func updateProgress() {
         let wordCount = getWordCount()
@@ -84,6 +103,9 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         
         if wordCount >= 120 {
             writingProgressBar.progressTintColor = UIColor(red: 122, green: 199, blue: 12)
+            if storyComplete {
+                return
+            }
             emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
             emitter.emitterShape = CAEmitterLayerEmitterShape.line
             emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
@@ -94,39 +116,21 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             
         }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Restore the navigation bar to default
-        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        navigationController?.navigationBar.shadowImage = nil
-        
-        performSegue(withIdentifier: "closeStory", sender: nil)
-    }
     
+    // helper methods
     private func getWordCount() -> Int {
-        return self.storyText.text.split { !$0.isLetter }.count
+        return self.storyText.text.split { !$0.isLetter && !$0.isNumber }.count
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc private func endConfetti(emitterLayer:CAEmitterLayer) {
         emitterLayer.lifetime = 0.0
-        emitterLayer.removeAllAnimations()
-        emitterLayer.removeFromSuperlayer()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
+    // Saving or updating the story
     
     @objc private func saveStory() {
         //save text to the core data
@@ -140,6 +144,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             storyDocument.created_at = Date()
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
+            storyDocument.is_complete = storyComplete
             
             appDelegate.saveContext()
         }

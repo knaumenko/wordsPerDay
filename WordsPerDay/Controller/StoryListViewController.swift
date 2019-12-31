@@ -41,24 +41,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: goalLabel)
         
         //getting data from the model
-        let fetchRequest: NSFetchRequest<DocumentMO> = DocumentMO.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            
-            do {
-                try fetchResultController.performFetch()
-                if let fetchedObjects = fetchResultController.fetchedObjects {
-                    storyRecords = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
+        storyRecords = retrieveStories()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,6 +104,31 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         storyListTableView.endUpdates()
     }
     
+    private func retrieveStories () -> [DocumentMO] {
+        let fetchRequest: NSFetchRequest<DocumentMO> = DocumentMO.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            
+            do {
+                try fetchResultController.performFetch()
+                if let fetchedObjects = fetchResultController.fetchedObjects {
+                   return fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        
+        return []
+    }
+    
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         
@@ -136,17 +144,5 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    @IBAction func unwindToStoryList(sender: UIStoryboardSegue) {
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    @IBAction func unwindToStoryList(sender: UIStoryboardSegue) {}
 }
