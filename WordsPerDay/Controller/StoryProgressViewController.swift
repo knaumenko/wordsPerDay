@@ -23,6 +23,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     }
     @IBOutlet var progressBarHeader: UIView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var storyTitle: UITextField!
     
     var storyDocument: DocumentMO!
     
@@ -50,6 +51,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         self.saveButton.target = self
         self.saveButton.action = #selector(StoryProgressViewController.saveStory)
         self.saveButton.isEnabled = false
+        
+        storyTitle.addTarget(self, action: #selector(StoryProgressViewController.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     // Controls for different View states
@@ -58,6 +61,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         
         if let story = storyDocument {
+            storyTitle.text = story.title
             storyText.text = story.text
             storyComplete = story.is_complete
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
@@ -117,6 +121,10 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        saveButton.isEnabled = true
+    }
+    
     // helper methods
     private func getWordCount() -> Int {
         return self.storyText.text.split { !$0.isLetter && !$0.isNumber }.count
@@ -145,6 +153,9 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
             storyDocument.is_complete = storyComplete
+            if let title = self.storyTitle.text {
+                storyDocument.title = title
+            }
             
             appDelegate.saveContext()
         }

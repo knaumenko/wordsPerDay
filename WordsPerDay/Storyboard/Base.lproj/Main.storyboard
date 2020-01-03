@@ -222,6 +222,7 @@
                         <outlet property="progressBarHeader" destination="pzl-HX-vok" id="RxW-2X-SNH"/>
                         <outlet property="saveButton" destination="ksN-I1-mn9" id="ND9-mf-IIb"/>
                         <outlet property="storyText" destination="K6C-yL-6vR" id="erV-1P-blv"/>
+                        <outlet property="storyTitle" destination="ODr-jY-e4R" id="sgG-k4-u3q"/>
                         <outlet property="writingProgressBar" destination="QbC-nC-Bq7" id="ivd-wk-bMO"/>
                         <segue destination="SSb-ft-sYK" kind="unwind" identifier="closeStory" unwindAction="unwindToStoryListWithSender:" id="hGS-Vp-kfx"/>
                     </connections>
