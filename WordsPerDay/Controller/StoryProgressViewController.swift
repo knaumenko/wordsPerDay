@@ -79,10 +79,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         let wordCount = getWordCount()
         if wordCount > 0 && wordCount <= wordGoal {
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
-        } else if !storyComplete{
-            storyComplete = true
         }
-        
+
         saveButton.isEnabled = true
         self.navigationItem.hidesBackButton = true
         placeholder.isHidden = !storyText.text.isEmpty
@@ -105,19 +103,19 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         let percentage = Float(wordCount)/Float(wordGoal)
         writingProgressBar.setProgress(percentage, animated: true)
         
-        if wordCount >= 120 {
+        if wordCount >= wordGoal {
             writingProgressBar.progressTintColor = UIColor(red: 122, green: 199, blue: 12)
-            if storyComplete {
-                return
+            if !storyComplete {
+                emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
+                emitter.emitterShape = CAEmitterLayerEmitterShape.line
+                emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
+                emitter.emitterCells = emitter.generateEmitterCells()
+                self.view.layer.addSublayer(emitter)
+                
+                perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
+                
+                storyComplete = true
             }
-            emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
-            emitter.emitterShape = CAEmitterLayerEmitterShape.line
-            emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
-            emitter.emitterCells = emitter.generateEmitterCells()
-            self.view.layer.addSublayer(emitter)
-            
-            perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
-            
         }
     }
     
