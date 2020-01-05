@@ -13,6 +13,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var storyText: UITextView!
     @IBOutlet var writingProgressBar: UIProgressView! {
         didSet {
+            // TODO: give these colors names
             writingProgressBar.progressTintColor = UIColor(red: 255, green: 195, blue: 0)
             writingProgressBar.trackTintColor = UIColor(red: 250, green: 250, blue: 250)
             writingProgressBar.layer.cornerRadius = 3
@@ -27,12 +28,14 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     
     var storyDocument: DocumentMO!
     
+    // this is only used one time as init, don't need to declare, just use 0.0
+    // also, why not just 0 (int) instead of a float
     var currentWordCount: Float = 0.0
     var wordGoal = 120
     var emitter = ConfettiEmitter()
     var unsavedText = false
     var placeholder = UILabel()
-    var storyComplete: Bool = false
+    var storyComplete: Bool = false // :storyCompleted would be better
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +43,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         //settin up the text view
         storyText.delegate = self
         storyText.becomeFirstResponder()
-        writingProgressBar.progress = currentWordCount
+        writingProgressBar.progress = currentWordCount // should add whitespace around this
         placeholder.text = "StoryText..."
         placeholder.font = UIFont.italicSystemFont(ofSize: (storyText.font?.pointSize)!)
         placeholder.sizeToFit()
@@ -63,6 +66,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if let story = storyDocument {
             storyTitle.text = story.title
             storyText.text = story.text
+            // past tense be more obvious of what this means, story.was_completed, story.completed
             storyComplete = story.is_complete
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
         }
@@ -76,7 +80,12 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        // why not put all this code into updateProgress()?
+        // you're calling getWordCount() twice, once here, then in updateProgress
+        // this logic is useful anytime you update progress
         let wordCount = getWordCount()
+        // you still have a bug when you copy paste more than 1 word at the end?
+        // can just set progress to 100% if wordCount > wordGoal
         if wordCount > 0 && wordCount <= wordGoal {
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
         }
@@ -99,6 +108,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     // Updating Progress bar
     
     @objc private func updateProgress() {
+
         let wordCount = getWordCount()
         let percentage = Float(wordCount)/Float(wordGoal)
         writingProgressBar.setProgress(percentage, animated: true)
@@ -106,6 +116,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if wordCount >= wordGoal {
             writingProgressBar.progressTintColor = UIColor(red: 122, green: 199, blue: 12)
             if !storyComplete {
+                // refactor into createEmitter(), showConfetti() or something
                 emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
                 emitter.emitterShape = CAEmitterLayerEmitterShape.line
                 emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
@@ -114,7 +125,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
                 
                 perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
                 
-                storyComplete = true
+                storyComplete = true // does this update coreData?
             }
         }
     }
@@ -141,6 +152,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     @objc private func saveStory() {
         //save text to the core data
         let words = getWordCount()
+        // what if they had typed in some symbols?
+        // i think you mean if the document is empty or just whitespaces, don't save
         if words <= 0 {return}
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
             if storyDocument == nil {

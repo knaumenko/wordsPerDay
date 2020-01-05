@@ -19,6 +19,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     var fetchResultController: NSFetchedResultsController<DocumentMO>!
     
     override func viewWillAppear(_ animated: Bool) {
+        // TODO: give colors readable names, save them as constants somewhere, e.g. constants/UIColors.swift
         navigationController?.navigationBar.barTintColor = UIColor(red: 28, green: 176, blue: 246)
     }
 
@@ -31,9 +32,11 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.storyListTableView.dataSource = self
         self.storyListTableView.allowsSelection = true
         
+        // TODO: refactor this into a function, which will eventually fetch the correct numbers from data
         streakDayLabel.text = "days \nstreak"
         streakNumberLabel.text = "10"
         
+        // TODO: refactor this into a function, which will eventually fetch goal from settings
         let goalLabel = UILabel()
         goalLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         goalLabel.textColor = UIColor.white
@@ -55,6 +58,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StoryListTableViewCell
         
         if let storyDate = storyRecords[indexPath.row].created_at {
+            // TODO: dateFormatter should just be a class constant
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .none
@@ -69,6 +73,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // TODO: what does this mean? magic numbers should always be named constants at top of class
         return 60.0
     }
     
@@ -106,6 +111,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func retrieveStories () -> [DocumentMO] {
         let fetchRequest: NSFetchRequest<DocumentMO> = DocumentMO.fetchRequest()
+        // TODO: you don't need this variable
         let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -132,6 +138,8 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         
+        // TODO: where did this string come from? should be a constant
+        // so you don't get bugs with some strings not matching other strings in random places
         if identifier == "createStory" {
             print("creating a note")
         }
