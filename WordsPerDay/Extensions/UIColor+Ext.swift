@@ -15,4 +15,6 @@ extension UIColor {
         let blueValue = CGFloat(blue) / 255.0
         self.init(red: redValue, green: greenValue, blue: blueValue, alpha: 1.0)
     }
+
+    // maybe you can add some static constants to the class
 }
