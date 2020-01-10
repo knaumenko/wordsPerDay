@@ -23,6 +23,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     }
     @IBOutlet var progressBarHeader: UIView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var deleteButton: UIBarButtonItem!
     @IBOutlet var storyTitle: UITextField!
     
     var storyDocument: DocumentMO!
@@ -51,6 +52,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         self.saveButton.target = self
         self.saveButton.action = #selector(StoryProgressViewController.saveStory)
         self.saveButton.isEnabled = false
+        self.deleteButton.isEnabled = false
         
         storyTitle.addTarget(self, action: #selector(StoryProgressViewController.textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -65,6 +67,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             storyText.text = story.text
             storyComplete = story.is_complete
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
+            deleteButton.isEnabled = true
         }
         placeholder.isHidden = !storyText.text.isEmpty
         
@@ -160,5 +163,21 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         
         saveButton.isEnabled = false
         self.navigationItem.hidesBackButton = false
+        deleteButton.isEnabled = true
+    }
+    
+    // deleting a story
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else {return}
+        
+        if identifier == "deleteStory" {
+            if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+                let context = appDelegate.persistentContainer.viewContext
+                context.delete(storyDocument)
+                
+                appDelegate.saveContext()
+            }
+        }
     }
 }

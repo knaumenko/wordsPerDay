@@ -15,10 +15,12 @@ class StoryListTableViewCell: UITableViewCell {
     
     @IBOutlet var cellBorderView: UIView! {
         didSet {
-            cellBorderView.layer.cornerRadius = 10
-            cellBorderView.layer.borderWidth = 2
+            cellBorderView.layer.cornerRadius = 20
+            cellBorderView.layer.borderWidth = 1
             cellBorderView.layer.borderColor = UIColor(red: 122, green: 199, blue: 12).cgColor
-            
+            //cellBorderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
+            // another
+            //cellBorderView.addBottomBorder(with: UIColor(red: 122, green: 199, blue: 12), andWidth: 1.0)
         }
     }
 
