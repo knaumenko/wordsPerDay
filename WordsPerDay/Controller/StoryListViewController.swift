@@ -54,6 +54,10 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StoryListTableViewCell
         
+        if let storyTitle = storyRecords[indexPath.row].title {
+            cell.title?.text = storyTitle
+        }
+        
         if let storyDate = storyRecords[indexPath.row].created_at {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
@@ -64,6 +68,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         cell.wordCountLabel?.text = String(storyRecords[indexPath.row].word_count)
+        cell.textPreview?.text = storyRecords[indexPath.row].text
         
         return cell
     }

@@ -29,13 +29,7 @@ class StoryListView: UIView {
     
     @IBOutlet var headerView: UIView! {
         didSet {
-            headerView.backgroundColor = .white
-            headerView.layer.masksToBounds = false
-            headerView.layer.shadowColor = UIColor.gray.cgColor
-            headerView.layer.shadowOffset = CGSize(width: 0, height: 2)
-            headerView.layer.shadowOpacity = 0.1
-            headerView.layer.shadowRadius = 2.0
-            //headerView.addBottomBorder(with: UIColor(red: 232, green: 232, blue: 232), andWidth: 1.0)
+            headerView.addBottomBorder(with: UIColor(red: 232, green: 232, blue: 232), andWidth: 1.0)
         }
     }
     
