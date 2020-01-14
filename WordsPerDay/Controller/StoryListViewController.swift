@@ -68,6 +68,11 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         cell.wordCountLabel?.text = String(storyRecords[indexPath.row].word_count)
+        if storyRecords[indexPath.row].word_count >= 120 {
+            cell.bulletImage.image = UIImage(named: "greenCircle")
+        } else {
+            cell.bulletImage.image = UIImage(named: "yellowCircle")
+        }
         cell.textPreview?.text = storyRecords[indexPath.row].text
         
         return cell
