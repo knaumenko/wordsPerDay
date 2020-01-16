@@ -82,6 +82,41 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         return 100.0
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
+            (action, sourceView, complitionHandler) in
+            // Deleting rows from the core data
+            if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+                let context = appDelegate.persistentContainer.viewContext
+                context.delete(self.storyRecords[indexPath.row])
+                
+                appDelegate.saveContext()
+            }
+            
+            complitionHandler(true)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Share") {
+            (action, sourceView, complitionHandler) in
+            let defaultText = self.storyRecords[indexPath.row].text
+            
+            let activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+            
+            self.present(activityController, animated: true, completion: nil)
+            complitionHandler(true)
+        }
+        
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        
+        return swipeConfiguration
+    }
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         storyListTableView.beginUpdates()
     }
