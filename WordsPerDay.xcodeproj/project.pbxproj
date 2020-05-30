@@ -7,17 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D533585C23FBA29A009C0F8A /* SettingsTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D533585B23FBA29A009C0F8A /* SettingsTextFieldCell.swift */; };
 		D55F8318237232B600281998 /* StoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55F8317237232B600281998 /* StoryListViewController.swift */; };
 		D55F831C237508B000281998 /* UIViewBorder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55F831B237508B000281998 /* UIViewBorder+Ext.swift */; };
 		D55F831E23751B5800281998 /* StoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55F831D23751B5800281998 /* StoryListView.swift */; };
 		D55F832423850D5800281998 /* StoryProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55F832323850D5800281998 /* StoryProgressViewController.swift */; };
 		D55F832B2387B5D400281998 /* WordsPerDay.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D55F83292387B5D400281998 /* WordsPerDay.xcdatamodeld */; };
+		D572724623FE3CC400839CD8 /* UserDefaults+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D572724523FE3CC400839CD8 /* UserDefaults+Ext.swift */; };
 		D575334E236B8DC200AEC529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D575334D236B8DC200AEC529 /* AppDelegate.swift */; };
 		D5753353236B8DC200AEC529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5753351236B8DC200AEC529 /* Main.storyboard */; };
 		D5753366236B8DC500AEC529 /* WordsPerDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5753365236B8DC500AEC529 /* WordsPerDayTests.swift */; };
 		D5753378236CD20400AEC529 /* StoryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5753377236CD20300AEC529 /* StoryListTableViewCell.swift */; };
 		D575337B236CD9E400AEC529 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D575337A236CD9E400AEC529 /* UIColor+Ext.swift */; };
 		D596CDC323AB478C00832888 /* ConfettiEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D596CDC223AB478C00832888 /* ConfettiEmitter.swift */; };
+		D5B85C3C23F65FF100606FE7 /* UserSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B85C3B23F65FF100606FE7 /* UserSettingsTableViewController.swift */; };
 		D5DC252F23A9DB54005D5880 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5DC252E23A9DB54005D5880 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -32,11 +35,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D533585B23FBA29A009C0F8A /* SettingsTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextFieldCell.swift; sourceTree = "<group>"; };
 		D55F8317237232B600281998 /* StoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryListViewController.swift; sourceTree = "<group>"; };
 		D55F831B237508B000281998 /* UIViewBorder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewBorder+Ext.swift"; sourceTree = "<group>"; };
 		D55F831D23751B5800281998 /* StoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryListView.swift; sourceTree = "<group>"; };
 		D55F832323850D5800281998 /* StoryProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressViewController.swift; sourceTree = "<group>"; };
 		D55F832A2387B5D400281998 /* WordsPerDay.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordsPerDay.xcdatamodel; sourceTree = "<group>"; };
+		D572724523FE3CC400839CD8 /* UserDefaults+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ext.swift"; sourceTree = "<group>"; };
 		D575334A236B8DC200AEC529 /* WordsPerDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordsPerDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D575334D236B8DC200AEC529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5753352236B8DC200AEC529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,6 +52,7 @@
 		D5753377236CD20300AEC529 /* StoryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryListTableViewCell.swift; sourceTree = "<group>"; };
 		D575337A236CD9E400AEC529 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		D596CDC223AB478C00832888 /* ConfettiEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiEmitter.swift; sourceTree = "<group>"; };
+		D5B85C3B23F65FF100606FE7 /* UserSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsTableViewController.swift; sourceTree = "<group>"; };
 		D5DC252E23A9DB54005D5880 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +138,7 @@
 				D596CDC123AB475400832888 /* Layers */,
 				D5753377236CD20300AEC529 /* StoryListTableViewCell.swift */,
 				D55F831D23751B5800281998 /* StoryListView.swift */,
+				D533585B23FBA29A009C0F8A /* SettingsTextFieldCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -141,6 +148,7 @@
 			children = (
 				D55F8317237232B600281998 /* StoryListViewController.swift */,
 				D55F832323850D5800281998 /* StoryProgressViewController.swift */,
+				D5B85C3B23F65FF100606FE7 /* UserSettingsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -150,6 +158,7 @@
 			children = (
 				D575337A236CD9E400AEC529 /* UIColor+Ext.swift */,
 				D55F831B237508B000281998 /* UIViewBorder+Ext.swift */,
+				D572724523FE3CC400839CD8 /* UserDefaults+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -265,9 +274,12 @@
 				D575337B236CD9E400AEC529 /* UIColor+Ext.swift in Sources */,
 				D55F831E23751B5800281998 /* StoryListView.swift in Sources */,
 				D55F832423850D5800281998 /* StoryProgressViewController.swift in Sources */,
+				D5B85C3C23F65FF100606FE7 /* UserSettingsTableViewController.swift in Sources */,
 				D575334E236B8DC200AEC529 /* AppDelegate.swift in Sources */,
 				D596CDC323AB478C00832888 /* ConfettiEmitter.swift in Sources */,
 				D55F832B2387B5D400281998 /* WordsPerDay.xcdatamodeld in Sources */,
+				D533585C23FBA29A009C0F8A /* SettingsTextFieldCell.swift in Sources */,
+				D572724623FE3CC400839CD8 /* UserDefaults+Ext.swift in Sources */,
 				D55F8318237232B600281998 /* StoryListViewController.swift in Sources */,
 				D55F831C237508B000281998 /* UIViewBorder+Ext.swift in Sources */,
 				D5753378236CD20400AEC529 /* StoryListTableViewCell.swift in Sources */,
@@ -429,7 +441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.WordsPerDay;
+				PRODUCT_BUNDLE_IDENTIFIER = WordsPerDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -445,7 +457,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.WordsPerDay;
+				PRODUCT_BUNDLE_IDENTIFIER = WordsPerDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

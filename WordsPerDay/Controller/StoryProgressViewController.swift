@@ -23,6 +23,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     }
     @IBOutlet var progressBarHeader: UIView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var shareButton: UIBarButtonItem!
     @IBOutlet var deleteButton: UIBarButtonItem!
     @IBOutlet var storyTitle: UITextField!
     
@@ -37,6 +38,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.tintColor = .gray
         
         //settin up the text view
         storyText.delegate = self
@@ -55,6 +58,9 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         self.deleteButton.isEnabled = false
         
         storyTitle.addTarget(self, action: #selector(StoryProgressViewController.textFieldDidChange(_:)), for: .editingChanged)
+        
+        self.shareButton.action = #selector(StoryProgressViewController.shareStory)
+        self.shareButton.isEnabled = false
     }
     
     // Controls for different View states
@@ -68,6 +74,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             storyComplete = story.is_complete
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
             deleteButton.isEnabled = true
+            shareButton.isEnabled = true
         }
         placeholder.isHidden = !storyText.text.isEmpty
         
@@ -150,7 +157,9 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
                 storyDocument = DocumentMO(context: appDelegate.persistentContainer.viewContext)
             }
             storyDocument.text = self.storyText.text
-            storyDocument.created_at = Date()
+            if storyDocument.created_at == nil{
+                storyDocument.created_at = Date()
+            }
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
             storyDocument.is_complete = storyComplete
@@ -164,6 +173,17 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         saveButton.isEnabled = false
         self.navigationItem.hidesBackButton = false
         deleteButton.isEnabled = true
+        shareButton.isEnabled = true
+    }
+    
+    @objc private func shareStory() {
+        let activityController = UIActivityViewController(activityItems: [storyDocument.text!], applicationActivities: nil)
+                   
+            if let popoverController = activityController.popoverPresentationController {
+               popoverController.sourceView = self.view
+            }
+
+            self.present(activityController, animated: true, completion: nil)
     }
     
     // deleting a story
