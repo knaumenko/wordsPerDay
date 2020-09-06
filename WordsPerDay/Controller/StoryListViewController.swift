@@ -208,13 +208,15 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         guard let identifier = segue.identifier else { return }
         
         if identifier == "createStory" {
-            print("creating a note")
+            let destinationController = segue.destination as! StoryProgressViewController
+            destinationController.wordGoal = wordGoal
         }
         
         else if identifier == "displayStory" {
             if let indexPath = storyListTableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! StoryProgressViewController
                 destinationController.storyDocument = storyRecords[indexPath.row]
+                destinationController.wordGoal = wordGoal
             }
         }
         
@@ -293,8 +295,10 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func updateStreak() {
-        let streak = getStreak()
-        
+        var streak = 0
+        if storyRecords.count > 0 {
+            streak = getStreak()
+        }
         streakNumberLabel.text = String(streak)
         if streak > 0 {
             streakIcon.image = UIImage(named: "argos_icon")

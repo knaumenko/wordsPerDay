@@ -30,7 +30,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     var storyDocument: DocumentMO!
     
     var currentWordCount: Float = 0.0
-    var wordGoal = 120
+    var wordGoal: Int = 0
     var emitter = ConfettiEmitter()
     var unsavedText = false
     var placeholder = UILabel()
