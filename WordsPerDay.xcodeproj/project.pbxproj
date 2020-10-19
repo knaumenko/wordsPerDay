@@ -20,6 +20,7 @@
 		D5753378236CD20400AEC529 /* StoryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5753377236CD20300AEC529 /* StoryListTableViewCell.swift */; };
 		D575337B236CD9E400AEC529 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D575337A236CD9E400AEC529 /* UIColor+Ext.swift */; };
 		D596CDC323AB478C00832888 /* ConfettiEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D596CDC223AB478C00832888 /* ConfettiEmitter.swift */; };
+		D59C225F253E26FC0034EA4F /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59C225E253E26FC0034EA4F /* AppConstants.swift */; };
 		D5B85C3C23F65FF100606FE7 /* UserSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B85C3B23F65FF100606FE7 /* UserSettingsTableViewController.swift */; };
 		D5DC252F23A9DB54005D5880 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5DC252E23A9DB54005D5880 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		D5753377236CD20300AEC529 /* StoryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryListTableViewCell.swift; sourceTree = "<group>"; };
 		D575337A236CD9E400AEC529 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		D596CDC223AB478C00832888 /* ConfettiEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiEmitter.swift; sourceTree = "<group>"; };
+		D59C225E253E26FC0034EA4F /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		D5B85C3B23F65FF100606FE7 /* UserSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsTableViewController.swift; sourceTree = "<group>"; };
 		D5DC252E23A9DB54005D5880 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 		D575334C236B8DC200AEC529 /* WordsPerDay */ = {
 			isa = PBXGroup;
 			children = (
+				D59C225D253E26E60034EA4F /* Utils */,
 				D5753379236CD9A600AEC529 /* Extensions */,
 				D5753374236B8EE000AEC529 /* Controller */,
 				D5753373236B8ED700AEC529 /* View */,
@@ -169,6 +172,14 @@
 				D596CDC223AB478C00832888 /* ConfettiEmitter.swift */,
 			);
 			path = Layers;
+			sourceTree = "<group>";
+		};
+		D59C225D253E26E60034EA4F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				D59C225E253E26FC0034EA4F /* AppConstants.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +292,7 @@
 				D533585C23FBA29A009C0F8A /* SettingsTextFieldCell.swift in Sources */,
 				D572724623FE3CC400839CD8 /* UserDefaults+Ext.swift in Sources */,
 				D55F8318237232B600281998 /* StoryListViewController.swift in Sources */,
+				D59C225F253E26FC0034EA4F /* AppConstants.swift in Sources */,
 				D55F831C237508B000281998 /* UIViewBorder+Ext.swift in Sources */,
 				D5753378236CD20400AEC529 /* StoryListTableViewCell.swift in Sources */,
 			);
