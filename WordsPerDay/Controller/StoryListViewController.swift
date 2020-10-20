@@ -265,9 +265,9 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         // we need to check if the current_date is today, but if there are no completed stories, we still need to check yesterday's date
         
         for record in storyRecords {
-            // record.date == current_date, check if is_completed & update completed flag
+            // record.date == current_date, check if was_completed & update completed flag
             if Calendar.current.compare(record.created_at!, to: current_date, toGranularity: .day) == .orderedSame {
-                if record.is_completed {
+                if record.was_completed {
                     completed = true
                 } // else ignore and keep going
             }
@@ -284,7 +284,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
                 let dayBefore = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
                 if Calendar.current.compare(record.created_at!, to: dayBefore, toGranularity: .day) == .orderedSame {
                     current_date = dayBefore
-                    if record.is_completed { completed = true }
+                    if record.was_completed { completed = true }
                 } else { // there's a gap that's greater than a day, so break streak
                     break
                 }

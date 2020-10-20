@@ -70,7 +70,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if let story = storyDocument {
             storyTitle.text = story.title
             storyText.text = story.text
-            storyCompleted = story.is_completed
+            storyCompleted = story.was_completed
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
             deleteButton.isEnabled = true
             shareButton.isEnabled = true
@@ -164,7 +164,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             }
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
-            storyDocument.is_completed = storyCompleted
+            storyDocument.was_completed = storyCompleted
+
             if let title = self.storyTitle.text {
                 storyDocument.title = title
             }
