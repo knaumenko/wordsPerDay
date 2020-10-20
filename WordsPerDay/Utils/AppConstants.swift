@@ -12,19 +12,24 @@ import UIKit
 enum Constants {
     enum CellIdentifiers {
         static let storyDataCell = "storyDataCell"
-        
     }
     
     enum SegueIdentifiers {
         static let newStory = "createStory"
         static let displayStory = "displayStory"
         static let showSettings = "showSettings"
+        static let closeStory = "closeStory"
+        static let deleteStory = "deleteStory"
+        static let unwindToStoryList = "unwindToStoryList"
     }
     
     enum Colors {
         static let Blue = UIColor(red: 28, green: 176, blue: 246)
         static let deleteButtonRed = UIColor(red: 231, green: 76, blue: 60)
         static let shareButtonYellow = UIColor(red: 254, green: 149, blue: 38)
+        static let trackBarYellow = UIColor(red: 255, green: 195, blue: 0)
+        static let trackBarWhite = UIColor(red: 250, green: 250, blue: 250)
+        static let trackBarGreen = UIColor(red: 122, green: 199, blue: 12)
     }
     
     enum Images {
@@ -34,15 +39,13 @@ enum Constants {
         static let sadDogIcon = UIImage(named: "argos_sad_icon")
     }
     
-    enum Font {
-        
-    }
-    
     enum Labels {
         static let streakDayLabel = "days \nstreak"
+        static let storyPlaceholder = "StoryText..."
     }
     
     enum Defaults {
         static let defaultWordGoal = 120
+        static let trackBarRadius = 3
     }
 }
