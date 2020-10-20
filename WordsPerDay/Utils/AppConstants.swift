@@ -44,8 +44,9 @@ enum Constants {
         static let storyPlaceholder = "StoryText..."
     }
     
-    enum Defaults {
+    struct Defaults {
         static let defaultWordGoal = 120
         static let trackBarRadius = 3
+        static let storyCellHeight = 100.0
     }
 }

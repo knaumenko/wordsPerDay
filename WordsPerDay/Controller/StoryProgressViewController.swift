@@ -29,12 +29,11 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     
     var storyDocument: DocumentMO!
     
-    var currentWordCount: Float = 0.0
     var wordGoal: Int = 0
     var emitter = ConfettiEmitter()
     var unsavedText = false
     var placeholder = UILabel()
-    var storyComplete: Bool = false
+    var storyCompleted: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +43,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         //settin up the text view
         storyText.delegate = self
         storyText.becomeFirstResponder()
-        writingProgressBar.progress = currentWordCount
+        writingProgressBar.progress = 0.0
         placeholder.text = Constants.Labels.storyPlaceholder
         placeholder.font = UIFont.italicSystemFont(ofSize: (storyText.font?.pointSize)!)
         placeholder.sizeToFit()
@@ -71,7 +70,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if let story = storyDocument {
             storyTitle.text = story.title
             storyText.text = story.text
-            storyComplete = story.is_complete
+            storyCompleted = story.is_completed
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
             deleteButton.isEnabled = true
             shareButton.isEnabled = true
@@ -115,16 +114,9 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         
         if wordCount >= wordGoal {
             writingProgressBar.progressTintColor = Constants.Colors.trackBarGreen
-            if !storyComplete {
-                emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
-                emitter.emitterShape = CAEmitterLayerEmitterShape.line
-                emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
-                emitter.emitterCells = emitter.generateEmitterCells()
-                self.view.layer.addSublayer(emitter)
-                
-                perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
-                
-                storyComplete = true
+            if !storyCompleted {
+                showConfetti()
+                storyCompleted = true
             }
         }
     }
@@ -146,6 +138,16 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         emitterLayer.lifetime = 0.0
     }
     
+    private func showConfetti() {
+        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
+        emitter.emitterShape = CAEmitterLayerEmitterShape.line
+        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
+        emitter.emitterCells = emitter.generateEmitterCells()
+        self.view.layer.addSublayer(emitter)
+        
+        perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
+    }
+    
     // Saving or updating the story
     
     @objc private func saveStory() {
@@ -162,7 +164,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             }
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
-            storyDocument.is_complete = storyComplete
+            storyDocument.is_completed = storyCompleted
             if let title = self.storyTitle.text {
                 storyDocument.title = title
             }
