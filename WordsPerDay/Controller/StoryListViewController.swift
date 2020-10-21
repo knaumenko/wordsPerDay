@@ -18,11 +18,11 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var storyRecords: [DocumentMO] = []
     var fetchResultController: NSFetchedResultsController<DocumentMO>!
-    var defaultWordGoal = 120
+    var defaultWordGoal = Constants.Defaults.defaultWordGoal
     var wordGoal: Int = 0
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.barTintColor = UIColor(red: 28, green: 176, blue: 246)
+        navigationController?.navigationBar.barTintColor = Constants.Colors.Blue
     }
 
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         //getting data from the model
         storyRecords = retrieveStories()
         
-        streakDayLabel.text = "days \nstreak"
+        streakDayLabel.text = Constants.Labels.streakDayLabel
         updateStreak()
         
         self.updateWordCountLabel()
@@ -58,7 +58,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "storyDataCell"
+        let cellIdentifier = Constants.CellIdentifiers.storyDataCell
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StoryListTableViewCell
         
@@ -77,9 +77,9 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.wordCountLabel?.text = String(storyRecords[indexPath.row].word_count)
         if storyRecords[indexPath.row].word_count >= 120 {
-            cell.bulletImage.image = UIImage(named: "greenCircle")
+            cell.bulletImage.image = Constants.Images.greenBullet
         } else {
-            cell.bulletImage.image = UIImage(named: "yellowCircle")
+            cell.bulletImage.image = Constants.Images.yellowBullet
         }
         cell.textPreview?.text = storyRecords[indexPath.row].text
         
@@ -87,7 +87,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0
+        return CGFloat(Constants.Defaults.storyCellHeight)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -110,7 +110,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
             complitionHandler(true)
         }
         
-        deleteAction.backgroundColor = UIColor(red: 231, green: 76, blue: 60)
+        deleteAction.backgroundColor = Constants.Colors.deleteButtonRed
         if #available(iOS 13.0, *) {
             deleteAction.image = UIImage(systemName: "trash")
         } else {
@@ -134,7 +134,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
             complitionHandler(true)
         }
         
-        shareAction.backgroundColor = UIColor(red: 254, green: 149, blue: 38)
+        shareAction.backgroundColor = Constants.Colors.shareButtonYellow
         
         if #available(iOS 13.0, *) {
             shareAction.image = UIImage(systemName: "square.and.arrow.up")
@@ -207,12 +207,12 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         
-        if identifier == "createStory" {
+        if identifier == Constants.SegueIdentifiers.newStory {
             let destinationController = segue.destination as! StoryProgressViewController
             destinationController.wordGoal = wordGoal
         }
         
-        else if identifier == "displayStory" {
+        else if identifier == Constants.SegueIdentifiers.displayStory {
             if let indexPath = storyListTableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! StoryProgressViewController
                 destinationController.storyDocument = storyRecords[indexPath.row]
@@ -220,7 +220,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
-        else if identifier == "showSettings" {
+        else if identifier == Constants.SegueIdentifiers.showSettings {
             let destinationController = segue.destination as! UserSettingsTableViewController
             destinationController.wordGoal = wordGoal
         }
@@ -262,12 +262,12 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         var streak = 0
         var completed = false
         
-        // we need to check if the current_date is today, but there are no complete stories, we still need to check yesterday date
+        // we need to check if the current_date is today, but if there are no completed stories, we still need to check yesterday's date
         
         for record in storyRecords {
-            // record.date == current_date, check if is_complete & update completed flag
+            // record.date == current_date, check if was_completed & update completed flag
             if Calendar.current.compare(record.created_at!, to: current_date, toGranularity: .day) == .orderedSame {
-                if record.is_complete {
+                if record.was_completed {
                     completed = true
                 } // else ignore and keep going
             }
@@ -284,7 +284,7 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
                 let dayBefore = Calendar.current.date(byAdding: .day, value: -1, to: current_date)!
                 if Calendar.current.compare(record.created_at!, to: dayBefore, toGranularity: .day) == .orderedSame {
                     current_date = dayBefore
-                    if record.is_complete { completed = true }
+                    if record.was_completed { completed = true }
                 } else { // there's a gap that's greater than a day, so break streak
                     break
                 }
@@ -301,10 +301,10 @@ class StoryListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         streakNumberLabel.text = String(streak)
         if streak > 0 {
-            streakIcon.image = UIImage(named: "argos_icon")
+            streakIcon.image = Constants.Images.happyDogIcon
         }
         else {
-            streakIcon.image = UIImage(named: "argos_sad_icon")
+            streakIcon.image = Constants.Images.sadDogIcon
         }
     }
 }

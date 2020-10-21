@@ -13,11 +13,11 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var storyText: UITextView!
     @IBOutlet var writingProgressBar: UIProgressView! {
         didSet {
-            writingProgressBar.progressTintColor = UIColor(red: 255, green: 195, blue: 0)
-            writingProgressBar.trackTintColor = UIColor(red: 250, green: 250, blue: 250)
-            writingProgressBar.layer.cornerRadius = 3
+            writingProgressBar.progressTintColor = Constants.Colors.trackBarYellow
+            writingProgressBar.trackTintColor = Constants.Colors.trackBarWhite
+            writingProgressBar.layer.cornerRadius = CGFloat(Constants.Defaults.trackBarRadius)
             writingProgressBar.clipsToBounds = true
-            writingProgressBar.layer.sublayers![1].cornerRadius = 3
+            writingProgressBar.layer.sublayers![1].cornerRadius = CGFloat(Constants.Defaults.trackBarRadius)
             writingProgressBar.subviews[1].clipsToBounds = true
         }
     }
@@ -29,12 +29,11 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     
     var storyDocument: DocumentMO!
     
-    var currentWordCount: Float = 0.0
     var wordGoal: Int = 0
     var emitter = ConfettiEmitter()
     var unsavedText = false
     var placeholder = UILabel()
-    var storyComplete: Bool = false
+    var storyCompleted: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +43,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         //settin up the text view
         storyText.delegate = self
         storyText.becomeFirstResponder()
-        writingProgressBar.progress = currentWordCount
-        placeholder.text = "StoryText..."
+        writingProgressBar.progress = 0.0
+        placeholder.text = Constants.Labels.storyPlaceholder
         placeholder.font = UIFont.italicSystemFont(ofSize: (storyText.font?.pointSize)!)
         placeholder.sizeToFit()
         storyText.addSubview(placeholder)
@@ -71,7 +70,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         if let story = storyDocument {
             storyTitle.text = story.title
             storyText.text = story.text
-            storyComplete = story.is_complete
+            storyCompleted = story.was_completed
             perform(#selector(updateProgress), with: nil, afterDelay: 1.0)
             deleteButton.isEnabled = true
             shareButton.isEnabled = true
@@ -103,7 +102,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
            navigationController?.navigationBar.shadowImage = nil
            
-           performSegue(withIdentifier: "closeStory", sender: nil)
+           performSegue(withIdentifier: Constants.SegueIdentifiers.closeStory, sender: nil)
        }
     
     // Updating Progress bar
@@ -114,17 +113,10 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         writingProgressBar.setProgress(percentage, animated: true)
         
         if wordCount >= wordGoal {
-            writingProgressBar.progressTintColor = UIColor(red: 122, green: 199, blue: 12)
-            if !storyComplete {
-                emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
-                emitter.emitterShape = CAEmitterLayerEmitterShape.line
-                emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
-                emitter.emitterCells = emitter.generateEmitterCells()
-                self.view.layer.addSublayer(emitter)
-                
-                perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
-                
-                storyComplete = true
+            writingProgressBar.progressTintColor = Constants.Colors.trackBarGreen
+            if !storyCompleted {
+                showConfetti()
+                storyCompleted = true
             }
         }
     }
@@ -146,6 +138,16 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
         emitterLayer.lifetime = 0.0
     }
     
+    private func showConfetti() {
+        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
+        emitter.emitterShape = CAEmitterLayerEmitterShape.line
+        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
+        emitter.emitterCells = emitter.generateEmitterCells()
+        self.view.layer.addSublayer(emitter)
+        
+        perform(#selector(endConfetti), with: emitter, afterDelay: 1.5)
+    }
+    
     // Saving or updating the story
     
     @objc private func saveStory() {
@@ -162,7 +164,8 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
             }
             storyDocument.word_count = Int32(words)
             storyDocument.last_updated = Date()
-            storyDocument.is_complete = storyComplete
+            storyDocument.was_completed = storyCompleted
+
             if let title = self.storyTitle.text {
                 storyDocument.title = title
             }
@@ -191,7 +194,7 @@ class StoryProgressViewController: UIViewController, UITextViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else {return}
         
-        if identifier == "deleteStory" {
+        if identifier == Constants.SegueIdentifiers.deleteStory {
             if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
                 let context = appDelegate.persistentContainer.viewContext
                 context.delete(storyDocument)
